@@ -17,3 +17,13 @@ def set_data(request):
     r.set('Casablanca','Ingrid Bergman, Humphrey Bogart, Peter Lorre')
     r.set('The Big Lebowski', 'Julianne Moore, Jeff Bridges, Tara Reid')
     return HttpResponse("database opgevuld")
+
+def get_movies(request):
+    r = redis.StrictRedis(host='localhost', port=6379, db=0)
+    
+    return HttpResponse(r.scan())
+
+def search_movie(request):
+    r = redis.StrictRedis(host='localhost', port=6379, db=0)
+    b = request.GET.get('movie','Saving Private Ryan')
+    return HttpResponse(r.get(b))
